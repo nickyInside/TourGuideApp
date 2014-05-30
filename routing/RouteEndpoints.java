@@ -1,4 +1,4 @@
-/**
+/** 
  * Defines the start point and end point of a route.
  */
 public class RouteEndpoints {
