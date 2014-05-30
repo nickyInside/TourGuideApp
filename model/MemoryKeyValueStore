@@ -1,0 +1,64 @@
+import java.util.HashMap;
+import java.util.List;
+
+public class MemoryKeyValueStore implements KeyValueStore {
+	
+	HashMap<String, List<String>> map = new HashMap<String, List<String>>();
+
+	@Override
+	/**
+	 * Set the value for the specified key.
+	 * 
+	 * <br><br>
+	 * <b>Modifies</b>:<br> this<br><br>
+	 * <b>Effects</b>:<br> If key is not null and all strings in value are non-null and do not contain the reserved character<br>
+	 * then value is remembered for key, overwriting any existing value stored for key.<br>
+	 * Otherwise, IllegalArgumentException is thrown.<br>
+	 * 
+	 * @param key Key for the value to be set.
+	 * @param value The new string list to be assigned to this key (may be null).
+	 * 
+	 * @throws IllegalArgumentException If key is null or a string in the list is null or a string in the list contains the reserved character.
+	 */
+	public void putStringList(String key, List<String> value) {
+		if (key == null) {
+			throw new IllegalArgumentException();
+		}
+		if (value == null) {
+			map.put(key, value);
+			return;
+		}
+		for (String s: value) {
+			if (s == null) 
+				throw new IllegalArgumentException();
+			if (s.contains(RESERVED_CHAR_STRING))
+				throw new IllegalArgumentException();
+		}
+		map.put(key, value);
+	}
+
+	@Override
+	/**
+	 * Get the string list corresponding to the specified key.
+	 * 
+	 * <br><br>
+	 * <b>Effects:</b>:<br> If key is not null, returns value (possibly null) stored for key.<br>
+	 * If key is null, throws IllegalArgumentException. 
+	 * Don't worry about testing or implementing ClassCastException.
+	 *   
+	 * @param key The key whose value is to be retrieved.
+	 * @return The corresponding string list, or null if a null value has been assigned to the key,
+	 *         or if no value has yet been assigned to the key.
+	 * 
+	 * @throws IllegalArgumentException if key is null
+	 * @throws ClassCastException If the entry for the specified key is not convertible to a string list.
+	 */
+	public List<String> getStringList(String key) {
+		if (key != null)
+			return map.get(key);
+		if (key == null)
+			throw new IllegalArgumentException();
+		return null;
+	}
+
+}
